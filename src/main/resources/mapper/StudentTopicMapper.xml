@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsw.management.admin.mapper.StudentTopicMapper">
+
+    <resultMap id="BaseResultMap" type="com.lsw.management.admin.model.po.StudentTopic">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="accountId" column="account_id" jdbcType="INTEGER"/>
+            <result property="topicId" column="topic_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,account_id,topic_id
+    </sql>
+</mapper>
