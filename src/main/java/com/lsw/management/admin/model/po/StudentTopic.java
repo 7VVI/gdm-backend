@@ -1,5 +1,6 @@
 package com.lsw.management.admin.model.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -23,17 +24,17 @@ import java.io.Serializable;
 public class StudentTopic implements Serializable,Cloneable{
 
     @SqlColumn(field = "id",index = SqlColumn.SqlIndex.PRI,allowNull = false,autoIncrement = true,comment = "主键")
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(name = "主键",notes = "")
     private Integer id ;
 
     @SqlColumn(field = "account_id",comment = "账号id 关联user_account表")
-    @TableField
+    @TableField("account_id")
     @ApiModelProperty(name = "账号id 关联user_account表",notes = "")
     private Integer accountId ;
 
     @SqlColumn(field = "topic_id",comment = "关联topic_selection表")
-    @TableField
+    @TableField("topic_id")
     @ApiModelProperty(name = "topicId",notes = "")
     private Integer topicId ;
 }

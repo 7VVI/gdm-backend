@@ -1,10 +1,8 @@
 package com.lsw.management.admin.model.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lsw.management.admin.model.po.UserAccount;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.beans.BeanCopier;
 
 /**
  * @author zhangyh
@@ -12,6 +10,7 @@ import org.springframework.cglib.beans.BeanCopier;
  * @desc
  */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserAccountVo {
 
@@ -20,11 +19,4 @@ public class UserAccountVo {
     private String username;
 
     private Integer state;
-
-    @JsonIgnore
-    transient final BeanCopier beanCopier = BeanCopier.create(UserAccount.class, UserAccountVo.class, false);
-
-    public UserAccountVo(UserAccount userAccount) {
-        beanCopier.copy(userAccount, this, null);
-    }
 }

@@ -82,7 +82,7 @@ public class UserController {
     public ApiResponse<UserAccountVo> baseLogin(@Validated @RequestBody UserLoginDto user, HttpServletRequest request){
         String verifyCode = user.getVerifyCode();
         String randomKey = user.getRandomKey();
-        imgVerifyCodeService.checkCaptcha(randomKey,verifyCode);
+//        imgVerifyCodeService.checkCaptcha(randomKey,verifyCode);
         UserAccountVo userAccountVo = userService.baseLogin(user,request);
         return ResponseHelper.success(userAccountVo);
     }
@@ -158,7 +158,11 @@ public class UserController {
         }
         String[] id = ids.split(",");
         List<UserAccount> userAccounts = userService.listByIds(Arrays.asList(id));
-        List<UserAccountVo> res = userAccounts.stream().map(UserAccountVo::new).collect(Collectors.toList());
+        List<UserAccountVo> res = userAccounts.stream().map(account->{
+            UserAccountVo userAccountVo = new UserAccountVo();
+            BeanUtils.copyProperties(account,userAccountVo);
+            return userAccountVo;
+        }).collect(Collectors.toList());
         return ResponseHelper.success(res);
     }
 }

@@ -20,4 +20,10 @@
         is_top,account_id,deleted,
         create_time,update_time
     </sql>
+    <select id="selecAnnouncementPage"
+            resultType="com.lsw.management.admin.model.vo.announcement.AnnouncementVo">
+        SELECT ${ew.sqlSelect} FROM announcement
+                                        INNER JOIN user_account  ON user_account.id=announcement.account_id
+            ${ew.customSqlSegment}
+    </select>
 </mapper>

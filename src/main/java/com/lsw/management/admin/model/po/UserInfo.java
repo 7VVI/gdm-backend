@@ -59,6 +59,18 @@ public class UserInfo implements Serializable {
     private String email;
 
     @TableField
+    @SqlColumn(field = "student_type",comment = "学生类型 0本科生 1研究生 2博士生")
+    private Integer studentType;
+
+    @TableField
+    @SqlColumn(field = "major",comment = "专业")
+    private Integer major;
+
+    @TableField
+    @SqlColumn(field = "professional",comment = "职称")
+    private Integer professional;
+
+    @TableField
     @TableLogic(value = "0", delval = "1")
     @SqlColumn(field = "deleted",defaultValue = "0",comment = "是否删除 0否 1是")
     private Integer deleted;

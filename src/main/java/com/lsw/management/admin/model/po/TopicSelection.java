@@ -1,5 +1,6 @@
 package com.lsw.management.admin.model.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +25,7 @@ import java.util.Date;
 public class TopicSelection implements Serializable{
 
     @SqlColumn(field = "id",index = SqlColumn.SqlIndex.PRI,allowNull = false,autoIncrement = true,comment = "主键")
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(name = "主键",notes = "")
     private Integer id ;
 
@@ -48,23 +49,28 @@ public class TopicSelection implements Serializable{
     @ApiModelProperty(name = "适合专业",notes = "")
     private String major ;
 
-    @SqlColumn(field = "student_type",comment = "学生类型 0本科生 1研究生 2博士生")
+    @SqlColumn(field = "direction",comment = "研究方向")
     @TableField
+    @ApiModelProperty(name = "研究方向",notes = "")
+    private String direction ;
+
+    @SqlColumn(field = "student_type",comment = "学生类型 0本科生 1研究生 2博士生")
+    @TableField("student_type")
     @ApiModelProperty(name = "学生类型 0本科生 1研究生 2博士生",notes = "")
     private Integer studentType ;
 
     @SqlColumn(field = "student_num",comment = "指导学生数",defaultValue = "0")
-    @TableField
+    @TableField("student_num")
     @ApiModelProperty(name = "指导学生数",notes = "")
     private Integer studentNum ;
 
     @SqlColumn(field = "create_time",comment = "创建时间")
-    @TableField
+    @TableField("create_time")
     @ApiModelProperty(name = "创建时间",notes = "")
     private Date createTime ;
 
     @SqlColumn(field = "update_time",comment = "更新时间")
-    @TableField
+    @TableField("update_time")
     @ApiModelProperty(name = "更新时间",notes = "")
     private Date updateTime ;
 

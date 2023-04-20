@@ -1,5 +1,6 @@
 package com.lsw.management.admin.model.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -26,7 +27,7 @@ public class Menu implements Serializable{
     public static final String DELETED="deleted";
 
     @SqlColumn(field = "menu_id",index = SqlColumn.SqlIndex.PRI,allowNull = false,autoIncrement = true,comment = "主键")
-    @TableId
+    @TableId(value = "menu_id",type = IdType.ASSIGN_ID)
     @ApiModelProperty(name = "主键",notes = "")
     private Integer menuId ;
 
@@ -46,7 +47,7 @@ public class Menu implements Serializable{
     private String icon ;
 
     @SqlColumn(field = "icon_color",comment = "菜单图标颜色")
-    @TableField
+    @TableField("icon_color")
     @ApiModelProperty(name = "菜单图标颜色",notes = "")
     private String iconColor ;
 
@@ -72,22 +73,22 @@ public class Menu implements Serializable{
 
 
     @SqlColumn(field = "create_by",comment = "创建者")
-    @TableField
+    @TableField("create_by")
     @ApiModelProperty(name = "创建者",notes = "")
     private String createBy ;
 
     @SqlColumn(field = "update_by",comment = "更新者")
-    @TableField
+    @TableField("update_by")
     @ApiModelProperty(name = "更新者",notes = "")
     private String updateBy ;
 
     @SqlColumn(field = "create_time",comment = "创建时间")
-    @TableField
+    @TableField("create_time")
     @ApiModelProperty(name = "创建时间",notes = "")
     private Date createTime ;
 
     @SqlColumn(field = "update_time",comment = "更新时间")
-    @TableField
+    @TableField("update_time")
     @ApiModelProperty(name = "更新时间",notes = "")
     private Date updateTime ;
 

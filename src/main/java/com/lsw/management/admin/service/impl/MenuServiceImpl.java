@@ -50,12 +50,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
             String[] menuPs = ps.split(",");
             for (String allowedPermission : menuPs) {
                 //通过code校验
-                long count = Arrays.stream(permission).filter(p -> p.equals(allowedPermission)).count();
-                if (count <= 0) {
-                    return false;
-                }
+             if(Arrays.asList(permission).contains(allowedPermission)){
+                 return true;
+             }
             }
-            return true;
+            return false;
         }).collect(Collectors.toList());
     }
 
@@ -64,6 +63,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
         Menu menu = new Menu();
         BeanUtils.copyProperties(addDto, menu);
         menu.setCreateBy(userAccountService.getCurrentUser(request).getUsername());
+        menu.setCreateTime(new Date());
         return menuMapper.insert(menu);
     }
 

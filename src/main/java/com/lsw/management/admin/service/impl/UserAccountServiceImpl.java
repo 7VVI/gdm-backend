@@ -19,6 +19,7 @@ import com.lsw.management.common.exception.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -78,7 +79,8 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         if(!encryptPassword.equals(userAccount.getPassword())){
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);
         }
-        UserAccountVo userAccountVo = new UserAccountVo(userAccount);
+        UserAccountVo userAccountVo = new UserAccountVo();
+        BeanUtils.copyProperties(userAccount,userAccountVo);
         //用户态保存
         request.getSession().setAttribute(GlobalConstants.SESSION_KEY,userAccountVo);
         return userAccountVo;
