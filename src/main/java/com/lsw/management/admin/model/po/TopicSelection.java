@@ -42,12 +42,12 @@ public class TopicSelection implements Serializable{
     @SqlColumn(field = "professional",comment = "教师职称")
     @TableField
     @ApiModelProperty(name = "教师职称",notes = "")
-    private String professional ;
+    private Integer professional ;
 
     @SqlColumn(field = "major",comment = "适合专业")
     @TableField
     @ApiModelProperty(name = "适合专业",notes = "")
-    private String major ;
+    private Integer major ;
 
     @SqlColumn(field = "direction",comment = "研究方向")
     @TableField

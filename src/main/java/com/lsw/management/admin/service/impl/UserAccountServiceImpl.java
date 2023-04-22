@@ -36,7 +36,7 @@ import java.util.List;
 @Service
 public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserAccount> implements UserAccountService {
 
-    private final Logger log= LoggerFactory.getLogger(UserAccountServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(UserAccountServiceImpl.class);
 
     /**
      * 盐值，混淆密码
@@ -51,15 +51,16 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
 
     @Override
     public UserAccount getCurrentUser(HttpServletRequest request) {
-        UserAccountVo user = (UserAccountVo)request.getSession().getAttribute(GlobalConstants.SESSION_KEY);
-        if(user==null||user.getId()==null){
+        UserAccountVo user = (UserAccountVo) request.getSession().getAttribute(GlobalConstants.SESSION_KEY);
+        if (user == null || user.getId() == null) {
             throw new BusinessException(ErrorCode.UNLOGIN);
         }
         QueryWrapper<UserAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(UserAccount.ID,user.getId());
+        queryWrapper.eq(UserAccount.ID, user.getId());
         UserAccount userAccount = userAccountMapper.selectOne(queryWrapper);
-        if(userAccount==null){
-            throw new BusinessException(ErrorCode.NOT_EXIST_USER);
+        if (userAccount == null) {
+            userAccount = new UserAccount();
+            userAccount.setUsername("Anonymous user");
         }
         return userAccount;
     }
@@ -68,33 +69,33 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     public UserAccountVo baseLogin(UserLoginDto user, HttpServletRequest request) {
         String password = user.getPassword();
         QueryWrapper<UserAccount> userAccountQueryWrapper = new QueryWrapper<>();
-        userAccountQueryWrapper.eq(UserAccount.USERNAME,user.getUsername());
+        userAccountQueryWrapper.eq(UserAccount.USERNAME, user.getUsername());
         UserAccount userAccount = userAccountMapper.selectOne(userAccountQueryWrapper);
-        if(userAccount==null){
+        if (userAccount == null) {
             throw new BusinessException(ErrorCode.NOT_EXIST_USER);
         }
         // 2. 加密
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + password).getBytes());
 
-        if(!encryptPassword.equals(userAccount.getPassword())){
+        if (!encryptPassword.equals(userAccount.getPassword())) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);
         }
         UserAccountVo userAccountVo = new UserAccountVo();
-        BeanUtils.copyProperties(userAccount,userAccountVo);
+        BeanUtils.copyProperties(userAccount, userAccountVo);
         //用户态保存
-        request.getSession().setAttribute(GlobalConstants.SESSION_KEY,userAccountVo);
+        request.getSession().setAttribute(GlobalConstants.SESSION_KEY, userAccountVo);
         return userAccountVo;
     }
 
     @Override
     public void userRegister(UserRegistryDto registryDto) {
-        if(!registryDto.getPassword().equals(registryDto.getCheckPassword())){
-            throw new BusinessException(ErrorCode.INVALID_PARAMS,"两次密码一样");
+        if (!registryDto.getPassword().equals(registryDto.getCheckPassword())) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMS, "两次密码一样");
         }
         String userAccount = registryDto.getUsername();
         QueryWrapper<UserAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(UserAccount.USERNAME,userAccount);
-        if(userAccountMapper.selectCount(queryWrapper)>0){
+        queryWrapper.eq(UserAccount.USERNAME, userAccount);
+        if (userAccountMapper.selectCount(queryWrapper) > 0) {
             throw new BusinessException(ErrorCode.ACCOUNT_DUPLICATE);
         }
         //组装账号信息
@@ -106,47 +107,71 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         uAccount.setPassword(encryptPassword);
         userAccountMapper.insert(uAccount);
         //组装用户信息
+        UserInfo userInfo = buildUserInfo(registryDto, uAccount);
+        userInfoMapper.insert(userInfo);
+    }
+
+    /**
+     * 构建用户个人信息
+     * @param registryDto
+     * @param uAccount
+     * @return
+     */
+    private UserInfo buildUserInfo(UserRegistryDto registryDto, UserAccount uAccount) {
         UserInfo userInfo = new UserInfo();
         userInfo.setAccountId(uAccount.getId());
         userInfo.setCreateTime(new Date());
-        if(registryDto.getBirthday()!=null){
+        if (registryDto.getBirthday() != null) {
             userInfo.setBirthday(registryDto.getBirthday());
         }
-        if(registryDto.getGender()!=null){
+        if (registryDto.getGender() != null) {
             userInfo.setGender(registryDto.getGender());
         }
-        if(registryDto.getMobile()!=null){
+        if (registryDto.getMobile() != null) {
             userInfo.setMobile(registryDto.getMobile());
         }
-        if(registryDto.getName()!=null){
+        if (registryDto.getName() != null) {
             userInfo.setName(registryDto.getName());
         }
-        if(registryDto.getEmail()!=null){
+        if (registryDto.getEmail() != null) {
             userInfo.setEmail(registryDto.getEmail());
         }
-        userInfoMapper.insert(userInfo);
+        if(registryDto.getProfessional()!=null){
+            userInfo.setProfessional(registryDto.getProfessional());
+        }
+        if(registryDto.getMajor()!=null){
+            userInfo.setMajor(registryDto.getMajor());
+        }
+        if(registryDto.getStudentType()!=null){
+            userInfo.setStudentType(registryDto.getStudentType());
+        }
+        return userInfo;
     }
 
     @Override
     public List<UserVo> selectUserVoPage(Page<UserVo> page, UserQueryDto queryDto) {
         QueryWrapper<UserAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("user_account.id,user_account.username,user_account.permissions,user_account.state" ,
-                        " user_info.name, user_info.gender, user_info.mobile,user_info.email, user_info.birthday")
+        queryWrapper.select("user_account.id,user_account.username,user_account.permissions,user_account.state",
+                        " user_info.name, user_info.gender, user_info.mobile,user_info.email, user_info.birthday" +
+                                ",user_info.major,user_info.professional,user_info.student_type")
                 .eq("user_account.deleted", 0)
                 .eq(StringUtils.isNotBlank(queryDto.getUsername()), "user_account.username", queryDto.getUsername())
-                .like(StringUtils.isNotBlank(queryDto.getName()),"user_info.name",queryDto.getName())
-                .like(StringUtils.isNotBlank(queryDto.getPermissions()),"user_account.permissions",queryDto.getPermissions())
-                .eq(queryDto.getState()!=null,"user_account.state",queryDto.getState())
-                .eq(queryDto.getGender()!=null,"user_info.gender",queryDto.getGender())
-                .eq(StringUtils.isNotBlank(queryDto.getMobile()),"user_info.mobile",queryDto.getMobile())
-                .eq(StringUtils.isNotBlank(queryDto.getEmail()),"user_info.email",queryDto.getEmail())
+                .like(StringUtils.isNotBlank(queryDto.getName()), "user_info.name", queryDto.getName())
+                .like(StringUtils.isNotBlank(queryDto.getPermissions()), "user_account.permissions", queryDto.getPermissions())
+                .eq(queryDto.getState() != null, "user_account.state", queryDto.getState())
+                .eq(queryDto.getGender() != null, "user_info.gender", queryDto.getGender())
+                .eq(StringUtils.isNotBlank(queryDto.getMobile()), "user_info.mobile", queryDto.getMobile())
+                .eq(StringUtils.isNotBlank(queryDto.getEmail()), "user_info.email", queryDto.getEmail())
+                .eq(queryDto.getMajor()!=null, "user_info.major", queryDto.getMajor())
+                .eq(queryDto.getProfessional()!=null, "user_info.professional", queryDto.getProfessional())
+                .eq(queryDto.getStudentType()!=null, "user_info.student_type", queryDto.getStudentType())
                 .orderByDesc("user_account.create_time");
         return userAccountMapper.selectUserVoPage(page, queryWrapper);
     }
 
     @Override
     public boolean userLogout(HttpServletRequest request) {
-        if(request.getSession().getAttribute(GlobalConstants.SESSION_KEY)==null){
+        if (request.getSession().getAttribute(GlobalConstants.SESSION_KEY) == null) {
             throw new BusinessException(ErrorCode.UNLOGIN);
         }
         request.removeAttribute(GlobalConstants.SESSION_KEY);

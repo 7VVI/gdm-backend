@@ -50,4 +50,10 @@ public class UserRegistryDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date birthday;
 
+    private Integer major;
+
+    private Integer studentType;
+
+    private Integer professional;
+
 }

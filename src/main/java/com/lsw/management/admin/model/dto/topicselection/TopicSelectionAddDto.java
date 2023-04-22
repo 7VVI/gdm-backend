@@ -2,6 +2,8 @@ package com.lsw.management.admin.model.dto.topicselection;
 
 import lombok.Data;
 
+import javax.validation.constraints.Pattern;
+
 /**
  * @Author: lsw
  * @desc
@@ -9,9 +11,15 @@ import lombok.Data;
  */
 @Data
 public class TopicSelectionAddDto {
-    private String title ;
-    private String major ;
+
+    private String title;
+
+    private Integer major;
+
     private String direction;
-    private Integer studentType ;
-    private Integer studentNum ;
+
+    private Integer studentType;
+
+    @Pattern(regexp = "\\d+",message = "Only digits are allowed")
+    private Integer studentNum;
 }

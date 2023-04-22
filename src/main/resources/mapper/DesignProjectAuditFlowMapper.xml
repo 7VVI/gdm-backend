@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsw.management.admin.mapper.DesignProjectAuditFlowMapper">
+
+    <resultMap id="BaseResultMap" type="com.lsw.management.admin.model.po.DesignProjectAuditFlow">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="auditDeptUserId" column="audit_dept_user_id" jdbcType="INTEGER"/>
+            <result property="deptApproveDate" column="dept_approve_date" jdbcType="VARCHAR"/>
+            <result property="deptApproveComment" column="dept_approve_comment" jdbcType="VARCHAR"/>
+            <result property="topicId" column="topic_id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,audit_dept_userid,dept_approve_date,
+        dept_approve_comment,topic_id,progress
+    </sql>
+</mapper>

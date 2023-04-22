@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @Author: lsw
- * @desc
+ * @desc 系统后端菜单模块
  * @date: 2023/4/19  22:28
  */
 @RestController

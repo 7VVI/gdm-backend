@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 /**
  * @author lsw
  * @Date 2023/4/6 15:03
- * @desc
+ * @desc 用户信息管理模块
  */
 @Api("用户账户模块")
 @RestController

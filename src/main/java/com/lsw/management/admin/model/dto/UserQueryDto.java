@@ -34,4 +34,10 @@ public class UserQueryDto extends PageRequest implements Serializable {
     private String mobile;
 
     private String email;
+
+    private Integer major;
+
+    private Integer professional;
+
+    private Integer studentType;
 }

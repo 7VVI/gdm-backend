@@ -17,11 +17,11 @@ import java.util.List;
 
 /**
  * @Author: lsw
- * @desc 公告模块
+ * @desc 系统公告模块
  * @date: 2023/4/20  21:02
  */
 @RestController
-@RequestMapping("/AnnouncementManage")
+@RequestMapping("/announcementManage")
 public class AnnouncementController {
 
     @Resource

@@ -23,4 +23,9 @@
         student_num,create_time,update_time,
         deleted
     </sql>
+    <select id="selectopicSelectionPage"
+            resultType="com.lsw.management.admin.model.vo.topicselection.TopicSelectionVo">
+        SELECT ${ew.sqlSelect} FROM topic_selection
+            ${ew.customSqlSegment}
+    </select>
 </mapper>

@@ -72,7 +72,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
                         "user_account.username")
                 .eq("announcement.deleted", 0)
                 .like(StringUtils.isNotBlank(announcementQueryDto.getTitle()),"announcement.title",announcementQueryDto.getTitle())
-                .orderByDesc("user_account.create_time");
+                .orderByDesc("announcement.create_time");
         return announcementMapper.selecAnnouncementPage(page, queryWrapper);
     }
 }

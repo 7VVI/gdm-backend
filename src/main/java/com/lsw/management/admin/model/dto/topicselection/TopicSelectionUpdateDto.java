@@ -13,7 +13,9 @@ public class TopicSelectionUpdateDto {
 
     private String title ;
 
-    private String major ;
+    private Integer major ;
 
     private Integer studentType ;
+
+    private Integer studentNum;
 }
