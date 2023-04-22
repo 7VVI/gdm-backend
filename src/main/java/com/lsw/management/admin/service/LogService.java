@@ -1,7 +1,12 @@
 package com.lsw.management.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lsw.management.admin.model.dto.log.SysLogQueryDto;
 import com.lsw.management.admin.model.po.SysLog;
+import com.lsw.management.admin.model.vo.log.SysLogVo;
+
+import java.util.List;
 
 /**
  * @author lsw
@@ -10,4 +15,5 @@ import com.lsw.management.admin.model.po.SysLog;
  */
 
 public interface LogService extends IService<SysLog> {
+    List<SysLog> pageList(Page<SysLogVo> page, SysLogQueryDto queryDto);
 }
