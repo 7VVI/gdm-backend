@@ -15,5 +15,5 @@ import java.util.List;
  */
 
 public interface LogService extends IService<SysLog> {
-    List<SysLog> pageList(Page<SysLogVo> page, SysLogQueryDto queryDto);
+    List<SysLogVo> pageList(Page<SysLogVo> page, SysLogQueryDto queryDto);
 }

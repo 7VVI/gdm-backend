@@ -52,15 +52,15 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     @Override
     public UserAccount getCurrentUser(HttpServletRequest request) {
         UserAccountVo user = (UserAccountVo) request.getSession().getAttribute(GlobalConstants.SESSION_KEY);
+        UserAccount userAccount;
+        //兼容匿名操作
         if (user == null || user.getId() == null) {
-            throw new BusinessException(ErrorCode.UNLOGIN);
-        }
-        QueryWrapper<UserAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(UserAccount.ID, user.getId());
-        UserAccount userAccount = userAccountMapper.selectOne(queryWrapper);
-        if (userAccount == null) {
-            userAccount = new UserAccount();
-            userAccount.setUsername("Anonymous user");
+            userAccount=new UserAccount();
+            userAccount.setUsername("anonymous");
+        }else{
+            QueryWrapper<UserAccount> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq(UserAccount.ID, user.getId());
+            userAccount = userAccountMapper.selectOne(queryWrapper);
         }
         return userAccount;
     }
@@ -107,45 +107,11 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         uAccount.setPassword(encryptPassword);
         userAccountMapper.insert(uAccount);
         //组装用户信息
-        UserInfo userInfo = buildUserInfo(registryDto, uAccount);
-        userInfoMapper.insert(userInfo);
-    }
-
-    /**
-     * 构建用户个人信息
-     * @param registryDto
-     * @param uAccount
-     * @return
-     */
-    private UserInfo buildUserInfo(UserRegistryDto registryDto, UserAccount uAccount) {
         UserInfo userInfo = new UserInfo();
         userInfo.setAccountId(uAccount.getId());
         userInfo.setCreateTime(new Date());
-        if (registryDto.getBirthday() != null) {
-            userInfo.setBirthday(registryDto.getBirthday());
-        }
-        if (registryDto.getGender() != null) {
-            userInfo.setGender(registryDto.getGender());
-        }
-        if (registryDto.getMobile() != null) {
-            userInfo.setMobile(registryDto.getMobile());
-        }
-        if (registryDto.getName() != null) {
-            userInfo.setName(registryDto.getName());
-        }
-        if (registryDto.getEmail() != null) {
-            userInfo.setEmail(registryDto.getEmail());
-        }
-        if(registryDto.getProfessional()!=null){
-            userInfo.setProfessional(registryDto.getProfessional());
-        }
-        if(registryDto.getMajor()!=null){
-            userInfo.setMajor(registryDto.getMajor());
-        }
-        if(registryDto.getStudentType()!=null){
-            userInfo.setStudentType(registryDto.getStudentType());
-        }
-        return userInfo;
+        BeanUtils.copyProperties(registryDto,userInfo);
+        userInfoMapper.insert(userInfo);
     }
 
     @Override

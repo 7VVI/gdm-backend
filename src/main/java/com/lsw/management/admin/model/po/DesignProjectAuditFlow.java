@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author: lsw
@@ -21,35 +22,60 @@ import java.io.Serializable;
 @SqlSync(tableName = "design_project_audit_flow")
 @ApiModel(value = "出题审计流程表",description = "")
 @TableName(value="design_project_audit_flow")
-public class DesignProjectAuditFlow implements Serializable,Cloneable{
-    /** 主键 */
+public class DesignProjectAuditFlow implements Serializable{
+
     @SqlColumn(field = "id",index = SqlColumn.SqlIndex.PRI,allowNull = false,autoIncrement = true,comment = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(name = "主键",notes = "")
     private Integer id ;
 
-    @SqlColumn(field = "audit_dept_user_id",comment = "示审核部门的用户ID，外键，指向用户信息表")
-    @TableField("audit_dept_user_id")
-    @ApiModelProperty(name = "示审核部门的用户ID，外键，指向用户信息表。",notes = "")
-    private Integer auditDeptUserId ;
+    @SqlColumn(field = "state",defaultValue = "0",comment = "当前审计状态，“0 未审核”、“1 系已审核”、“2 院已审核”等")
+    @TableField("state")
+    @ApiModelProperty(name = "当前审计状态，“0 未审核”、“1 系已审核”、“2 院已审核”等。",notes = "")
+    private Integer state ;
 
-    @SqlColumn(field = "dept_approve_date",comment = "表示部门审核通过的时间")
-    @TableField
-    @ApiModelProperty(name = "表示部门审核通过的时间",notes = "")
-    private String deptApproveDate ;
-
-    @SqlColumn(field = "dept_approve_comment",comment = "表示部门审核通过的备注和意见")
-    @TableField("dept_approve_comment")
-    @ApiModelProperty(name = "表示部门审核通过的备注和意见",notes = "")
-    private String deptApproveComment ;
-
-    @SqlColumn(field = "topic_id",comment = "审核的题目；关联出题表")
+    @SqlColumn(field = "topic_id",comment = "\"毕设题目 关联topic_selection表的id")
     @TableField("topic_id")
-    @ApiModelProperty(name = "审核的题目；关联出题表",notes = "")
+    @ApiModelProperty(name = "毕设题目 关联topic_selection表的id",notes = "")
     private Integer topicId ;
 
-    @SqlColumn(field = "status",comment = "0驳回 1通过")
-    @TableField
-    @ApiModelProperty(name = "0驳回 1通过",notes = "")
-    private Byte status ;
+    @SqlColumn(field = "department_audit_time",comment = "系别审核时间")
+    @TableField("department_audit_time")
+    @ApiModelProperty(name = "系别审核时间",notes = "")
+    private Date departmentAuditTime ;
+
+    @SqlColumn(field = "department_audit_user_id",comment = "系负责人审核的用户ID")
+    @TableField("department_audit_user_id")
+    @ApiModelProperty(name = "系负责人审核的用户ID",notes = "")
+    private Integer departmentAuditUserId ;
+
+    @SqlColumn(field = "department_audit_result",comment = "系负责人审核结果 0驳回 1通过")
+    @TableField("department_audit_result")
+    @ApiModelProperty(name = "系负责人审核结果 0驳回 1通过",notes = "")
+    private Byte departmentAuditResult ;
+
+    @SqlColumn(field = "department_audit_opinion",comment = "系负责人审核备注")
+    @TableField("department_audit_opinion")
+    @ApiModelProperty(name = "系负责人审核备注",notes = "")
+    private String departmentAuditOpinion ;
+
+    @SqlColumn(field = "school_audit_time",comment = "院级审核时间")
+    @TableField("school_audit_time")
+    @ApiModelProperty(name = "院级审核时间",notes = "")
+    private Date schoolAuditTime ;
+
+    @SqlColumn(field = "school_audit_user_id",comment = "院负责人审核的用户ID")
+    @TableField("school_audit_user_id")
+    @ApiModelProperty(name = "院负责人审核的用户ID",notes = "")
+    private Integer schoolAuditUserId ;
+
+    @SqlColumn(field = "school_audit_result",comment = "院负责人审核结果 0驳回 1通过")
+    @TableField("school_audit_result")
+    @ApiModelProperty(name = "院负责人审核结果 0驳回 1通过",notes = "")
+    private Byte schoolAuditResult ;
+
+    @SqlColumn(field = "school_audit_user_opinion",comment = "院负责人审核备注")
+    @TableField("school_audit_user_opinion")
+    @ApiModelProperty(name = "院负责人审核备注",notes = "")
+    private String schoolAuditUserOpinion ;
 }

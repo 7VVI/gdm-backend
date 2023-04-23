@@ -1,5 +1,6 @@
 package com.lsw.management.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lsw.management.admin.mapper.LogMapper;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author lsw
  * @Date 2023/4/7 16:44
- * @desc
+ * @desc 系统日志查询
  */
 @Service
 public class LogServiceImpl extends ServiceImpl<LogMapper, SysLog> implements LogService {
@@ -23,8 +24,18 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, SysLog> implements Lo
     LogMapper logMapper;
 
     @Override
-    public List<SysLog> pageList(Page<SysLogVo> page, SysLogQueryDto queryDto) {
+    public List<SysLogVo> pageList(Page<SysLogVo> page, SysLogQueryDto queryDto) {
 
-        return null;
+        QueryWrapper<SysLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("sys_log.id,sys_log.level,sys_log.business_type,sys_log.request_method,sys_log.oper_name," +
+                        "sys_log.oper_time,sys_log.oper_ip,sys_log.oper_url,sys_log.exception_detail")
+                .eq(queryDto.getLevel()!=null,"sys_log.level", queryDto.getLevel())
+                .eq(queryDto.getBusinessType()!=null,"sys_log.business_type", queryDto.getBusinessType())
+                .eq(queryDto.getRequestMethod()!=null,"sys_log.request_method", queryDto.getRequestMethod())
+                .eq(queryDto.getOperUrl()!=null,"sys_log.oper_url", queryDto.getOperUrl())
+                .eq(queryDto.getOperIp()!=null,"sys_log.oper_ip", queryDto.getOperIp())
+                .eq(queryDto.getOperTime()!=null,"sys_log.oper_time", queryDto.getOperTime())
+                .orderByDesc("sys_log.create_time");
+        return logMapper.selecSysLogPage(page, queryWrapper);
     }
 }

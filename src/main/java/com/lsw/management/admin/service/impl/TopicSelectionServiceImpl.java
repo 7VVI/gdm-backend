@@ -54,7 +54,7 @@ public class TopicSelectionServiceImpl extends ServiceImpl<TopicSelectionMapper,
         topicSelection.setTeacher(currentUser.getUsername());
         QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
         userInfoQueryWrapper.eq(UserInfo.ACCOUNT_ID,currentUser.getId());
-        final UserInfo userInfo = userInfoMapper.selectOne(userInfoQueryWrapper);
+        UserInfo userInfo = userInfoMapper.selectOne(userInfoQueryWrapper);
         topicSelection.setProfessional(userInfo.getProfessional());
         return topicSelectionMapper.insert(topicSelection);
     }

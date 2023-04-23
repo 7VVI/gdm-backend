@@ -63,11 +63,15 @@ public class UserInfo implements Serializable {
     private Integer studentType;
 
     @TableField
-    @SqlColumn(field = "major",comment = "专业")
+    @SqlColumn(field = "college",comment = "用户所在学院")
+    private Integer college;
+
+    @TableField
+    @SqlColumn(field = "major",comment = "用户所在专业")
     private Integer major;
 
     @TableField
-    @SqlColumn(field = "professional",comment = "职称")
+    @SqlColumn(field = "professional",comment = "教师的职称")
     private Integer professional;
 
     @TableField

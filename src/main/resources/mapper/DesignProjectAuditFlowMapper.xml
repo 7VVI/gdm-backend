@@ -6,15 +6,26 @@
 
     <resultMap id="BaseResultMap" type="com.lsw.management.admin.model.po.DesignProjectAuditFlow">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="auditDeptUserId" column="audit_dept_user_id" jdbcType="INTEGER"/>
-            <result property="deptApproveDate" column="dept_approve_date" jdbcType="VARCHAR"/>
-            <result property="deptApproveComment" column="dept_approve_comment" jdbcType="VARCHAR"/>
-            <result property="topicId" column="topic_id" jdbcType="INTEGER"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="departmentAuditResult" column="department_audit_result" jdbcType="TINYINT"/>
+            <result property="departmentAuditUserId" column="department_audit_user_id" jdbcType="INTEGER"/>
+            <result property="schoolAuditUserId" column="school_audit_user_id" jdbcType="INTEGER"/>
+            <result property="schoolAuditTime" column="school_audit_time" jdbcType="TIMESTAMP"/>
+            <result property="schoolAuditResult" column="school_audit_result" jdbcType="TINYINT"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
+            <result property="departmentAuditTime" column="department_audit_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,audit_dept_userid,dept_approve_date,
-        dept_approve_comment,topic_id,progress
+        id,department_audit_result,department_audit_user_id,
+        school_audit_user_id,school_audit_time,school_audit_result,
+        state,department_audit_time
     </sql>
+    <select id="selectPageList"
+            resultType="com.lsw.management.admin.model.vo.designProjectAuditFlow.DesignProjectAuditFlowVO">
+        SELECT
+            ${ew.sqlSelect}
+        FROM
+            design_project_audit_flow d
+                INNER JOIN topic_selection t ON d.topic_id = t.id
+    </select>
 </mapper>

@@ -83,13 +83,12 @@ public class AuthCheckAspect {
         String[] permission = userPermissions.split(",");
 
         for (PermissionEnum allowedPermission : allowedPermissions) {
-            //通过code校验
-            long count = Arrays.stream(permission).filter(p -> p.contains(String.valueOf(allowedPermission.getCode()))).count();
-            if(count<=0){
-                return false;
-            }
+            //通过code校验,只要具有其中一个权限就OK
+         if(Arrays.asList(permission).contains(String.valueOf(allowedPermission.getCode()))){
+             return true;
+         }
         }
-        return true;
+        return false;
     }
 
     @AfterThrowing(pointcut = "point()", throwing = "e")

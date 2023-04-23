@@ -1,5 +1,6 @@
 package com.lsw.management.admin.model.dto.log;
 
+import com.lsw.management.admin.model.dto.PageRequest;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @date: 2023/4/22  11:28
  */
 @Data
-public class SysLogQueryDto {
+public class SysLogQueryDto extends PageRequest {
     private Integer level;
     private Integer businessType;
     private String requestMethod;

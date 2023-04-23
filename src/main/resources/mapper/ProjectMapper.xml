@@ -5,18 +5,30 @@
 <mapper namespace="com.lsw.management.admin.mapper.ProjectMapper">
 
     <resultMap id="BaseResultMap" type="com.lsw.management.admin.model.po.Project">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="topicId" column="topic_id" jdbcType="VARCHAR"/>
-            <result property="status" column="status" jdbcType="VARCHAR"/>
-            <result property="startDate" column="start_date" jdbcType="VARCHAR"/>
-            <result property="endDate" column="end_date" jdbcType="VARCHAR"/>
-            <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
-            <result property="teacherId" column="teacher_id" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="topicId" column="topic_id" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="startDate" column="start_date" jdbcType="VARCHAR"/>
+        <result property="endDate" column="end_date" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+        <result property="teacherId" column="teacher_id" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,topic_id,status,
+        id
+        ,topic_id,status,
         start_date,end_date,student_id,
         teacher_id
     </sql>
+    <select id="selectProjectPage" resultType="com.lsw.management.admin.model.vo.project.ProjectVo">
+        SELECT ${ew.sqlSelect}
+        FROM project p
+                 INNER JOIN user_account s ON p.student_id = s.id
+                 INNER JOIN user_info si ON s.id = si.account_id
+                 INNER JOIN user_account t ON p.teacher_id = t.id
+                 INNER JOIN user_info ti ON t.id = ti.account_id
+            ${ew.customSqlSegment}
+    </select>
+
+
 </mapper>

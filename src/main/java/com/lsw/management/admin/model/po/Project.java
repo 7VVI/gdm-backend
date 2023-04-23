@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author: lsw
@@ -31,30 +32,35 @@ public class Project implements Serializable{
     @SqlColumn(field = "topic_id",comment = "关联topic_selection表 id ")
     @TableField("topic_id")
     @ApiModelProperty(name = "关联topic_selection表 id",notes = "")
-    private String topicId ;
+    private Integer topicId ;
 
-    @SqlColumn(field = "status",comment = "关联topic_selection表 id ")
+    @SqlColumn(field = "status",comment = "毕业设计状态：0进行中、1已完成、2已取消等 ")
     @TableField("status")
     @ApiModelProperty(name = "毕业设计状态：0进行中、1已完成、2已取消等",notes = "")
-    private String status ;
+    private Integer status ;
 
     @SqlColumn(field = "start_date",comment = "毕业设计开始日期")
     @TableField("start_date")
     @ApiModelProperty(name = "毕业设计开始日期",notes = "")
-    private String startDate ;
+    private Date startDate ;
 
     @SqlColumn(field = "end_date",comment = "毕业设计结束日期")
     @TableField("end_date")
     @ApiModelProperty(name = "毕业设计结束日期",notes = "")
-    private String endDate ;
+    private Date endDate ;
 
     @SqlColumn(field = "student_id",comment = "学生 ID，关联user_account表 ")
     @TableField("student_id")
     @ApiModelProperty(name = "学生 ID，关联user_account表",notes = "")
-    private String studentId ;
+    private Integer studentId ;
 
     @SqlColumn(field = "teacher_id",comment = "指导教师 ID，关联user_account表 ")
     @TableField("teacher_id")
     @ApiModelProperty(name = "指导教师 ID，关联user_account表",notes = "")
-    private String teacherId ;
+    private Integer teacherId ;
+
+    @SqlColumn(field = "deleted",comment = "是否删除 0否 1是 ",defaultValue = "0")
+    @TableField("deleted")
+    @ApiModelProperty(name = "是否删除 0否 1是 ",notes = "")
+    private Byte deleted;
 }

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface TopicSelectionMapper extends BaseMapper<TopicSelection> {
 
-    List<TopicSelectionVo> selectopicSelectionPage(Page<TopicSelectionVo> page, @Param(Constants.WRAPPER)QueryWrapper<TopicSelection> queryWrapper);
+    List<TopicSelectionVo> selectopicSelectionPage(Page<TopicSelectionVo> page, @Param(Constants.WRAPPER)QueryWrapper<TopicSelection> ew);
 }
 
 

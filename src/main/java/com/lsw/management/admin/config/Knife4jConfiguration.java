@@ -30,7 +30,7 @@ public class Knife4jConfiguration {
                 .select()
                 // 这里指定Controller扫描包路径(项目路径也行)
                 // 方式一：配置扫描：所有想要在swagger界面统一管理的接口，都必须在此包下
-                 .apis(RequestHandlerSelectors.basePackage("com.zhangyh.management"))
+                 .apis(RequestHandlerSelectors.basePackage("com.lsw.management"))
                 // 方式二：只有当方法上有@ApiOperation注解时，才能生成对应的接口文档
 //                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 路径使用any风格（指定所有路径）
@@ -50,7 +50,7 @@ public class Knife4jConfiguration {
                 .description("服务相关接口(knife4j)")
                 // 服务Url（网站地址）
                 .termsOfServiceUrl("http://localhost:9000/")
-                .contact(new Contact("liziyuan",null,"mc1753343931"))
+                .contact(new Contact("lsw",null,"xxxxxxx"))
                 .version("1.0")
                 .build();
     }

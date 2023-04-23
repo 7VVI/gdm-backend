@@ -1,7 +1,12 @@
 package com.lsw.management.admin.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lsw.management.admin.model.po.DesignProjectAuditFlow;
+import com.lsw.management.admin.model.vo.designProjectAuditFlow.DesignProjectAuditFlowVO;
+
+import java.util.List;
 
 /**
 * @author 17533
@@ -11,6 +16,13 @@ import com.lsw.management.admin.model.po.DesignProjectAuditFlow;
 */
 public interface DesignProjectAuditFlowMapper extends BaseMapper<DesignProjectAuditFlow> {
 
+    /**
+     * 分页查询
+     * @param page /
+     * @param queryWrapper /
+     * @return /
+     */
+    List<DesignProjectAuditFlowVO> selectPageList(Page<DesignProjectAuditFlowVO> page, QueryWrapper<DesignProjectAuditFlow> queryWrapper);
 }
 
 
