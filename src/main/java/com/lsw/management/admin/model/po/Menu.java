@@ -61,6 +61,11 @@ public class Menu implements Serializable{
     @ApiModelProperty(name = "组件名字",notes = "")
     private String name ;
 
+    @SqlColumn(field = "component",comment = "组件")
+    @TableField
+    @ApiModelProperty(name = "组件",notes = "")
+    private String component ;
+
     @SqlColumn(field = "hidden",comment = "是否隐藏 0否 1是",defaultValue = "0")
     @TableField
     @ApiModelProperty(name = "是否隐藏 0否 1是",notes = "")

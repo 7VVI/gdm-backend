@@ -145,5 +145,15 @@
 
 ### 项目初始化
 
-略
+1. 创建项目
 
+![image-20230423214425205](https://picgo-liziyuan.oss-cn-hangzhou.aliyuncs.com/img202304232144167.png)
+
+2. 启动：
+
+![image-20230423214456355](https://picgo-liziyuan.oss-cn-hangzhou.aliyuncs.com/img202304232144589.png)
+
+3. 项目瘦身
+4. 路由配置
+5. 引入组件库
+6. 开发页面

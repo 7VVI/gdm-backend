@@ -2,6 +2,7 @@ package com.lsw.management.admin.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.lsw.management.admin.annotation.Log;
 import com.lsw.management.admin.model.dto.announcement.AnnouncementAddDto;
 import com.lsw.management.admin.model.dto.announcement.AnnouncementQueryDto;
 import com.lsw.management.admin.model.dto.announcement.announcementUpdateDto;
@@ -42,6 +43,7 @@ public class AnnouncementController {
         return ResponseHelper.success(announcementService.announcementUpdate(updateDto));
     }
 
+    @Log
     @PostMapping("/pageList")
     public ApiResponse<PageDTO<AnnouncementVo>> pageList(@RequestBody AnnouncementQueryDto announcementQueryDto){
         long current = 1;

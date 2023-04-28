@@ -25,7 +25,7 @@ public class MenuController {
     MenuService menuService;
 
     @GetMapping("/listAll")
-   public ApiResponse<List<Menu>> listAll(@RequestParam String permissions){
+   public ApiResponse<List<Menu>> listAll(@RequestParam(required = false) String permissions){
         return ResponseHelper.success(menuService.listAll(permissions));
     }
 

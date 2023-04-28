@@ -99,9 +99,9 @@ public class UserController {
 
     @ApiOperation(value = "获取验证码",httpMethod = "GET")
     @GetMapping("/imgVerifyCode")
-    public ApiResponse<VerifyImgResult> getVerifyCode(@RequestParam("length") Integer length){
+    public ApiResponse<VerifyImgResult> getVerifyCode(@RequestParam(value = "length",defaultValue = "4")  Integer length){
         if(length==null||length==0){
-            throw new BusinessException(ErrorCode.MISSING_PARAMS);
+           length=4;
         }
       return  ResponseHelper.success(imgVerifyCodeService.generateVerifyCoe(length));
     }

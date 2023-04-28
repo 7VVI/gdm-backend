@@ -11,6 +11,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+    servlet:
+      path: /api
   session:
     timeout: "P30D" #30天
 

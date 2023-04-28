@@ -38,9 +38,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
 
     @Override
     public List<Menu> listAll(String permissions) {
-        if(StringUtils.isBlank(permissions)){
-            throw new BusinessException(ErrorCode.INVALID_PARAMS);
-        }
+        permissions="1,2,3,4";
+//        if(StringUtils.isBlank(permissions)){
+//            throw new BusinessException(ErrorCode.INVALID_PARAMS);
+//        }
         String[] permission = permissions.split(",");
         QueryWrapper<Menu> menuQueryWrapper = new QueryWrapper<>();
         menuQueryWrapper.eq(Menu.DELETED,0);
